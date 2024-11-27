@@ -274,7 +274,7 @@ public class UserBoard {
 
 	public void borrowDocumentAction() {
 		try {
-			new NewBorrowingForm(borrowingStorage, getSelectedDocumentId(), reader.getId(), true);
+			new NewBorrowingForm(documentStorage, borrowingStorage, getSelectedDocumentId(), reader.getId(), true);
 			filterBorrowingsAction();
 		} catch (IOException e) {
 			AlertPopup.open("An error occurred while borrowing a document", e.getMessage());

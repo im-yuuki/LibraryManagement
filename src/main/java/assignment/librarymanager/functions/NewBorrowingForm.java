@@ -2,6 +2,7 @@ package assignment.librarymanager.functions;
 
 import assignment.librarymanager.data.Borrowing;
 import assignment.librarymanager.managers.BorrowingStorage;
+import assignment.librarymanager.managers.DocumentStorage;
 import assignment.librarymanager.utils.AlertPopup;
 import assignment.librarymanager.utils.TimeUtils;
 import javafx.fxml.FXML;
@@ -15,10 +16,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class NewBorrowingForm implements FormInterface {
 
+	private final DocumentStorage documentStorage;
 	private final BorrowingStorage borrowingStorage;
 	private final Stage popup;
 	private final int userModeId;
@@ -32,7 +35,8 @@ public class NewBorrowingForm implements FormInterface {
 	@FXML
 	public DatePicker dueDateField;
 
-	public NewBorrowingForm(BorrowingStorage borrowingStorage, int documentId, int readerId, boolean userMode) throws IOException {
+	public NewBorrowingForm(DocumentStorage documentStorage, BorrowingStorage borrowingStorage, int documentId, int readerId, boolean userMode) throws IOException {
+		this.documentStorage = documentStorage;
 		this.borrowingStorage = borrowingStorage;
 		if (userMode) userModeId = readerId;
 		else userModeId = -1;
@@ -82,6 +86,11 @@ public class NewBorrowingForm implements FormInterface {
 				AlertPopup.open("Invalid input", "You can only borrow for yourself");
 				return;
 			}
+			ArrayList<Borrowing> borrowings = borrowingStorage.findBorrowings(borrowing.getDocumentId(), -1, false, false);
+			if (borrowings.size() >= Objects.requireNonNull(documentStorage.getEntry(borrowing.getDocumentId())).getQuantity()) {
+				AlertPopup.open("Invalid input", "Document is out of stock");
+				return;
+			}
 			borrowingStorage.setEntry(borrowing);
 			popup.close();
 		} catch (NumberFormatException e) {
@@ -96,4 +105,5 @@ public class NewBorrowingForm implements FormInterface {
 	public void onCancel() {
 		popup.close();
 	}
+
 }

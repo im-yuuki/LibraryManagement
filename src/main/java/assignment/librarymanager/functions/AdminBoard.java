@@ -495,7 +495,7 @@ public class AdminBoard {
 
 	public void borrowDocumentAction() {
 		try {
-			new NewBorrowingForm(borrowingStorage, getSelectedDocumentId(), getSelectedReaderId(), false);
+			new NewBorrowingForm(documentStorage, borrowingStorage, getSelectedDocumentId(), getSelectedReaderId(), false);
 			filterBorrowingsAction();
 		} catch (IOException e) {
 			AlertPopup.open("An error occurred while borrowing a document", e.getMessage());
