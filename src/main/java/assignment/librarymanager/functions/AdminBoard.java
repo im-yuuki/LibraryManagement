@@ -224,8 +224,6 @@ public class AdminBoard {
 	@FXML
 	public TextField borrowingIdInput;
 
-
-
 	public AdminBoard(Stage stage) throws IOException, SQLException {
 		Database database = new Database();
 		documentStorage = new DocumentStorage(database);
@@ -349,6 +347,7 @@ public class AdminBoard {
 			new EditDocumentForm(documentStorage, null);
 			filterDocumentsAction();
 		} catch (Exception e) {
+			e.printStackTrace();
 			AlertPopup.open("An error occurred while creating a document", e.getMessage());
 		}
 	}
@@ -411,6 +410,7 @@ public class AdminBoard {
 			new EditReaderForm(readerStorage, null);
 			filterReadersAction();
 		} catch (IOException e) {
+			e.printStackTrace();
 			AlertPopup.open("An error occurred while creating a reader", e.getMessage());
 		}
 	}
@@ -495,7 +495,7 @@ public class AdminBoard {
 
 	public void borrowDocumentAction() {
 		try {
-			new NewBorrowingForm(borrowingStorage, getSelectedDocumentId(), getSelectedReaderId());
+			new NewBorrowingForm(borrowingStorage, getSelectedDocumentId(), getSelectedReaderId(), false);
 			filterBorrowingsAction();
 		} catch (IOException e) {
 			AlertPopup.open("An error occurred while borrowing a document", e.getMessage());

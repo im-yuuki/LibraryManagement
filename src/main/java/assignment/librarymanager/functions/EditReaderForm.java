@@ -29,19 +29,19 @@ public class EditReaderForm implements FormInterface {
 	private final Reader reader;
 
 	@FXML
-	private TextField nameField;
+	public TextField nameField;
 
 	@FXML
-	private PasswordField passwordField;
+	public PasswordField passwordField;
 
 	@FXML
-	private TextField emailField;
+	public TextField emailField;
 
 	@FXML
-	private TextField phoneNumberField;
+	public TextField phoneNumberField;
 
 	@FXML
-	private DatePicker expDateField;
+	public DatePicker expDateField;
 
 	public EditReaderForm(ReaderStorage readerStorage, @Nullable Reader reader) throws IOException {
 		this.reader = reader;

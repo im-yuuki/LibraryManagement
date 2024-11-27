@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
@@ -7,7 +8,7 @@ group = 'assignment'
 version = '1.0-RELEASE'
 
 javafx {
-    version = "21.0.5"
+    version = "23.0.1"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
@@ -18,8 +19,10 @@ repositories {
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'org.xerial:sqlite-jdbc:3.47.0.0'
-    implementation 'org.openjfx:javafx-controls:21.0.5'
-    implementation 'org.openjfx:javafx-fxml:21.0.5'
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+    implementation 'org.slf4j:slf4j-simple:2.0.16'
+    implementation 'org.openjfx:javafx-controls:23.0.1'
+    implementation 'org.openjfx:javafx-fxml:23.0.1'
     implementation 'com.google.zxing:core:3.5.3'
     implementation 'com.google.zxing:javase:3.5.3'
     implementation 'io.github.cdimascio:dotenv-java:3.0.2'
@@ -32,6 +35,11 @@ test {
     useJUnitPlatform()
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
+application {
+    mainModule = 'assignment.librarymanager'
+    mainClass = 'assignment.librarymanager.Main'
+}
+
+run {
+    jvmArgs = ['--module-path', '%JAVAFX_HOME%/lib', '--add-modules', 'javafx.controls,javafx.fxml']
 }

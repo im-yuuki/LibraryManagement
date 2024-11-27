@@ -21,6 +21,7 @@ public class NewBorrowingForm implements FormInterface {
 
 	private final BorrowingStorage borrowingStorage;
 	private final Stage popup;
+	private final int userModeId;
 
 	@FXML
 	public TextField documentIdField;
@@ -31,9 +32,10 @@ public class NewBorrowingForm implements FormInterface {
 	@FXML
 	public DatePicker dueDateField;
 
-	public NewBorrowingForm(BorrowingStorage borrowingStorage, int documentId, int readerId) throws IOException {
+	public NewBorrowingForm(BorrowingStorage borrowingStorage, int documentId, int readerId, boolean userMode) throws IOException {
 		this.borrowingStorage = borrowingStorage;
-
+		if (userMode) userModeId = readerId;
+		else userModeId = -1;
 		FXMLLoader root = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/new_borrowing.fxml")));
 		root.setController(this);
 		popup = new Stage();
@@ -49,7 +51,8 @@ public class NewBorrowingForm implements FormInterface {
 			}
 			return null;
 		}));
-		readerIdField.setTextFormatter(new TextFormatter<String>(change -> {
+		if (userMode) readerIdField.setEditable(false);
+		else readerIdField.setTextFormatter(new TextFormatter<String>(change -> {
 			String text = change.getControlNewText();
 			if (text.matches("\\d*")) {
 				return change;
@@ -75,6 +78,10 @@ public class NewBorrowingForm implements FormInterface {
 					Integer.parseInt(documentIdField.getText()),
 					dueTime
 			);
+			if (userModeId != -1 && userModeId != borrowing.getReaderId()) {
+				AlertPopup.open("Invalid input", "You can only borrow for yourself");
+				return;
+			}
 			borrowingStorage.setEntry(borrowing);
 			popup.close();
 		} catch (NumberFormatException e) {

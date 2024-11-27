@@ -9,4 +9,8 @@ module assignment.librarymanager {
 	requires org.jetbrains.annotations;
 
 	exports assignment.librarymanager;
+	exports assignment.librarymanager.data;
+	exports assignment.librarymanager.functions;
+	exports assignment.librarymanager.managers;
+	exports assignment.librarymanager.utils;
 }

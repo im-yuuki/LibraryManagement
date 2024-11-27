@@ -112,6 +112,7 @@ public class Main extends Application implements FormInterface {
 		} catch (SQLException | LoginException | NullPointerException e) {
 			AlertPopup.open("Error", "Invalid ID or password");
 		} catch (Exception e) {
+			e.printStackTrace();
 			AlertPopup.open("An unexpected error occured", e.getMessage());
 			Platform.exit();
 		}

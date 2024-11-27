@@ -25,19 +25,19 @@ public class EditDocumentForm implements FormInterface {
 	private final Document document;
 
 	@FXML
-	private TextField nameField;
+	public TextField nameField;
 
 	@FXML
-	private TextField qtyField;
+	public TextField qtyField;
 
 	@FXML
-	private TextField authorField;
+	public TextField authorField;
 
 	@FXML
-	private TextField publisherField;
+	public TextField publisherField;
 
 	@FXML
-	private TextField categoryField;
+	public TextField categoryField;
 
 	public EditDocumentForm(DocumentStorage documentStorage, @Nullable Document document) throws IOException {
 		this.document = document;
@@ -93,6 +93,7 @@ public class EditDocumentForm implements FormInterface {
 		try {
 			documentStorage.setEntry(newDocument);
 		} catch (Exception e) {
+			e.printStackTrace();
 			AlertPopup.open("Error", e.getMessage());
 			return;
 		}
