@@ -1,4 +1,5 @@
 .gradle
+gradlew*
 gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -9,7 +10,6 @@ build/
 javafx-sdk*/
 library.db
 _*
-
 
 ### IntelliJ IDEA ###
 .idea/
