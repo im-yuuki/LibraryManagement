@@ -2,7 +2,7 @@ package assignment.librarymanager.data;
 
 import assignment.librarymanager.utils.TimeUtils;
 
-public class Borrowing {
+public class Borrow {
 
 	private final int id;  // -1 for new records
 	private final int readerId;
@@ -11,7 +11,7 @@ public class Borrowing {
 	private final long dueTime;
 	private final long returnTime; // -1 for not returned yet
 
-	public Borrowing(int readerId, int documentId, long dueTime) {
+	public Borrow(int readerId, int documentId, long dueTime) {
 		this.id = -1;
 		this.readerId = readerId;
 		this.documentId = documentId;
@@ -20,7 +20,7 @@ public class Borrowing {
 		this.returnTime = -1;
 	}
 
-	public Borrowing(int id, int readerId, int documentId, long borrowTime, long dueTime, long returnTime) {
+	public Borrow(int id, int readerId, int documentId, long borrowTime, long dueTime, long returnTime) {
 		this.id = id;
 		this.readerId = readerId;
 		this.documentId = documentId;

@@ -1,21 +1,16 @@
 package assignment.librarymanager.data;
 
-import org.jetbrains.annotations.Nullable;
+public class Book {
 
-import java.util.Objects;
-
-public class Document {
-
-	private final int id;
+	private final String isbn;
 	private final String name;
 	private final int quantity;
 	private final String author;
 	private final String publisher;
 	private final String category;
 
-
-	public Document(String name, int quantity, String author, String publisher, String category) {
-		this.id = -1;
+	public Book(String isbn, String name, int quantity, String author, String publisher, String category) {
+		this.isbn = isbn;
 		this.name = name;
 		this.quantity = quantity;
 		this.author = author;
@@ -23,17 +18,8 @@ public class Document {
 		this.category = category;
 	}
 
-	public Document(int id, String name, int quantity, String author, String publisher, String category) {
-		this.id = id;
-		this.name = name;
-		this.quantity = quantity;
-		this.author = author;
-		this.publisher = publisher;
-		this.category = category;
-	}
-
-	public int getId() {
-		return id;
+	public String getIsbn() {
+		return isbn;
 	}
 
 	public String getName() {
@@ -56,9 +42,9 @@ public class Document {
 		return category;
 	}
 
-	public String represent() {
-		return "[%d]\nName: %s\nAuthor: %s\nPublisher: %s\nCategory: %s\n".formatted(
-				id,
+	public String qrText() {
+		return "[%s]\nName: %s\nAuthor: %s\nPublisher: %s\nCategory: %s\n".formatted(
+				isbn,
 				name,
 				author,
 				publisher,

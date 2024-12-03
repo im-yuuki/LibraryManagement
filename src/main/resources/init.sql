@@ -1,47 +1,68 @@
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE IF NOT EXISTS "readers" (
-    "id" INTEGER NOT NULL UNIQUE,
-    "name" VARCHAR(255) NOT NULL,
-    "password_hash" VARCHAR(255) NOT NULL,
-    "registration_time" TIMESTAMP NOT NULL,
-    "expiration_time" TIMESTAMP NOT NULL,
-    "email" VARCHAR(255) UNIQUE NOT NULL,
-    "phone_number" VARCHAR(255) UNIQUE NOT NULL,
-    PRIMARY KEY("id")
+CREATE TABLE IF NOT EXISTS "users"
+(
+    "username" VARCHAR NOT NULL UNIQUE,
+    "name"     VARCHAR NOT NULL,
+    "pwd_hash" VARCHAR NOT NULL,
+    "email"    VARCHAR NOT NULL UNIQUE,
+    "role"     VARCHAR NOT NULL,
+    "creation" DATE    NOT NULL,
+    "notice"   TEXT,
+    PRIMARY KEY ("username")
 );
 
-CREATE INDEX IF NOT EXISTS "readers_index_0" ON "readers" ("name");
-CREATE INDEX IF NOT EXISTS "readers_index_1" ON "readers" ("email");
-CREATE INDEX IF NOT EXISTS "readers_index_2" ON "readers" ("phone_number");
+CREATE INDEX IF NOT EXISTS "users_index_0" ON "users" ("name");
+CREATE INDEX IF NOT EXISTS "users_index_1" ON "users" ("email");
 
-CREATE TABLE IF NOT EXISTS "documents" (
-    "id" INTEGER NOT NULL UNIQUE,
-    "name" VARCHAR(255) NOT NULL,
-    "quantity" INTEGER NOT NULL DEFAULT 1,
-    "author" VARCHAR(255) NOT NULL,
-    "publisher" VARCHAR(255) NOT NULL,
-    "category" VARCHAR(255) NOT NULL,
-    PRIMARY KEY("id")
+CREATE TABLE IF NOT EXISTS "books"
+(
+    "isbn"        VARCHAR NOT NULL UNIQUE,
+    "name"        VARCHAR NOT NULL,
+    "qty"         INTEGER NOT NULL,
+    "description" TEXT,
+    "author"      VARCHAR,
+    "category"    VARCHAR,
+    "thumbnail"   BLOB,
+    PRIMARY KEY ("isbn")
 );
 
-CREATE INDEX IF NOT EXISTS "documents_index_0" ON "documents" ("name");
-CREATE INDEX IF NOT EXISTS "documents_index_1" ON "documents" ("author");
-CREATE INDEX IF NOT EXISTS "documents_index_2" ON "documents" ("publisher");
-CREATE INDEX IF NOT EXISTS "documents_index_3" ON "documents" ("category");
+CREATE INDEX IF NOT EXISTS "books_index_0" ON "books" ("name");
+CREATE INDEX IF NOT EXISTS "books_index_1" ON "books" ("author");
+CREATE INDEX IF NOT EXISTS "books_index_2" ON "books" ("category");
 
-CREATE TABLE IF NOT EXISTS "borrowings" (
-    "id" INTEGER NOT NULL UNIQUE,
-    "reader_id" INTEGER NOT NULL,
-    "document_id" INTEGER NOT NULL,
-    "borrow_time" TIMESTAMP NOT NULL,
-    "due_time" TIMESTAMP NOT NULL,
-    "return_time" TIMESTAMP NOT NULL DEFAULT -1,
-    PRIMARY KEY("id"),
-
-    FOREIGN KEY ("document_id") REFERENCES "documents"("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY ("reader_id") REFERENCES "readers"("id") ON UPDATE CASCADE ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS "borrow"
+(
+    "id"       INTEGER NOT NULL UNIQUE,
+    "isbn"     VARCHAR NOT NULL,
+    "username" VARCHAR NOT NULL,
+    "from"     DATE    NOT NULL,
+    "due"      DATE    NOT NULL,
+    "return"   DATE,
+    "comment"  TEXT,
+    "rating"   INTEGER,
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("username") REFERENCES "users" ("username")
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    FOREIGN KEY ("isbn") REFERENCES "books" ("isbn")
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
-CREATE INDEX IF NOT EXISTS "borrowings_index_0" ON "borrowings" ("reader_id");
-CREATE INDEX IF NOT EXISTS "borrowings_index_1" ON "borrowings" ("document_id");
+CREATE INDEX IF NOT EXISTS "borrow_index_0" ON "borrow" ("isbn");
+CREATE INDEX IF NOT EXISTS "borrow_index_1" ON "borrow" ("username");
+
+CREATE TABLE IF NOT EXISTS "borrow_reqs"
+(
+    "id"       INTEGER NOT NULL UNIQUE,
+    "isbn"     VARCHAR NOT NULL,
+    "username" VARCHAR NOT NULL,
+    "duration" INTEGER NOT NULL,
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("isbn") REFERENCES "books" ("isbn")
+        ON UPDATE RESTRICT ON DELETE RESTRICT,
+    FOREIGN KEY ("username") REFERENCES "users" ("username")
+        ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS "borrow_reqs_index_0" ON "borrow_reqs" ("isbn");
+CREATE INDEX IF NOT EXISTS "borrow_reqs_index_1" ON "borrow_reqs" ("username");

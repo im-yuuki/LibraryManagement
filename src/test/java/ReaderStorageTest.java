@@ -1,6 +1,5 @@
-import assignment.librarymanager.data.Reader;
+import assignment.librarymanager.data.User;
 import assignment.librarymanager.managers.Database;
-import assignment.librarymanager.managers.ReaderStorage;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
@@ -30,8 +29,8 @@ public class ReaderStorageTest {
 	private final ReaderStorage readerStorage = new ReaderStorage(new Database());
 
 	public ReaderStorageTest() throws SQLException, IOException {
-		Reader reader = new Reader("Test", "123", 999999999, generateRandomString() , generateRandomString());
-		Reader createdReader = readerStorage.setEntry(reader);
+		User reader = new User("Test", "123", 999999999, generateRandomString() , generateRandomString());
+		User createdReader = readerStorage.setEntry(reader);
 		assertEquals(reader.getName(), createdReader.getName());
 		assertEquals(reader.getPasswordHash(), createdReader.getPasswordHash());
 		assertEquals(reader.getRegistrationTime(), createdReader.getRegistrationTime());
@@ -44,7 +43,7 @@ public class ReaderStorageTest {
 
 	@Test
 	public void testLogin() throws SQLException {
-		Reader reader = readerStorage.getEntry(targetReaderId);
+		User reader = readerStorage.getEntry(targetReaderId);
 		assertNotNull(reader);
 		assertEquals("Test", reader.getName());
 		assertTrue(reader.verifyPassword("123"));
@@ -52,10 +51,10 @@ public class ReaderStorageTest {
 
 	@Test
 	public void testUpdateReader() throws SQLException {
-		Reader reader = readerStorage.getEntry(targetReaderId);
+		User reader = readerStorage.getEntry(targetReaderId);
 		assertNotNull(reader);
-		Reader newReader = new Reader(targetReaderId, "Test2", reader.getPasswordHash(), reader.getRegistrationTime(), reader.getExpirationTime(), reader.getEmail(), reader.getPhoneNumber());
-		Reader updatedReader = readerStorage.setEntry(newReader);
+		User newReader = new User(targetReaderId, "Test2", reader.getPasswordHash(), reader.getRegistrationTime(), reader.getExpirationTime(), reader.getEmail(), reader.getPhoneNumber());
+		User updatedReader = readerStorage.setEntry(newReader);
 		assertEquals(newReader.getName(), updatedReader.getName());
 		assertEquals(newReader.getPasswordHash(), updatedReader.getPasswordHash());
 		assertEquals(newReader.getRegistrationTime(), updatedReader.getRegistrationTime());
@@ -66,7 +65,7 @@ public class ReaderStorageTest {
 
 	@Test
 	public void testDeleteReader() throws SQLException {
-		Reader reader = readerStorage.getEntry(targetReaderId);
+		User reader = readerStorage.getEntry(targetReaderId);
 		assertNotNull(reader);
 		readerStorage.deleteEntry(targetReaderId);
 		assertNull(readerStorage.getEntry(targetReaderId));

@@ -15,7 +15,7 @@ import javafx.stage.StageStyle;
 
 import java.util.Objects;
 
-public class AlertPopup {
+public class Alert {
 
 	public static void open(String label, String message) {
 		Stage alertPopup = new Stage();
@@ -23,7 +23,7 @@ public class AlertPopup {
 		alertPopup.initStyle(StageStyle.UTILITY);
 		alertPopup.setTitle(label);
 
-		Image infoIcon = new Image(Objects.requireNonNull(AlertPopup.class.getResourceAsStream("/info.png")), 40, 40, true, true);
+		Image infoIcon = new Image(Objects.requireNonNull(Alert.class.getResourceAsStream("/info.png")), 40, 40, true, true);
 		Text text = new Text(message);
 		text.setWrappingWidth(360);
 		HBox hBox = new HBox(10, new ImageView(infoIcon), text);
