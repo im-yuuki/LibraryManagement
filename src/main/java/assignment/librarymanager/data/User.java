@@ -22,12 +22,12 @@ public class User {
 	private final String email;
 	private final String notice;
 
-	public User(
+	protected User(
 			@NotNull String username,
 			@NotNull String name,
 			@NotNull String passwordHash,
-			Role role,
-			LocalDate creation,
+			@NotNull Role role,
+			@NotNull LocalDate creation,
 			@NotNull String email,
 			String notice
 	) {
@@ -72,7 +72,7 @@ public class User {
 		return notice;
 	}
 
-	protected String getPasswordHash() {
+	public String getPasswordHash() {
 		return passwordHash;
 	}
 

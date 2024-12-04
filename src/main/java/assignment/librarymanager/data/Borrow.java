@@ -1,68 +1,73 @@
 package assignment.librarymanager.data;
 
 import assignment.librarymanager.utils.TimeUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.time.LocalDate;
 
 public class Borrow {
 
-	private final int id;  // -1 for new records
-	private final int readerId;
-	private final int documentId;
-	private final long borrowTime;
-	private final long dueTime;
-	private final long returnTime; // -1 for not returned yet
+	private final int id;
+	private final String isbn;
+	private final String username;
+	private final LocalDate from;
+	private final LocalDate due;
+	private final LocalDate returnDate;
+	private final String comment;
+	private final int rating; // 0 for not rated
 
-	public Borrow(int readerId, int documentId, long dueTime) {
-		this.id = -1;
-		this.readerId = readerId;
-		this.documentId = documentId;
-		this.borrowTime = TimeUtils.getTimestamp();
-		this.dueTime = dueTime;
-		this.returnTime = -1;
-	}
-
-	public Borrow(int id, int readerId, int documentId, long borrowTime, long dueTime, long returnTime) {
+	protected Borrow(
+			int id,
+			@NotNull String isbn,
+			@NotNull String username,
+			@NotNull LocalDate from,
+			@NotNull LocalDate due,
+			LocalDate returnDate,
+			String comment,
+			int rating
+	) {
 		this.id = id;
-		this.readerId = readerId;
-		this.documentId = documentId;
-		this.borrowTime = borrowTime;
-		this.dueTime = dueTime;
-		this.returnTime = returnTime;
+		this.isbn = isbn;
+		this.username = username;
+		this.from = from;
+		this.due = due;
+		this.returnDate = returnDate;
+		this.comment = comment;
+		this.rating = rating;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public int getReaderId() {
-		return readerId;
+	public String getIsbn() {
+		return isbn;
 	}
 
-	public int getDocumentId() {
-		return documentId;
+	public String getUsername() {
+		return username;
 	}
 
-	public long getBorrowTime() {
-		return borrowTime;
+	public LocalDate getFrom() {
+		return from;
 	}
 
-	public String getBorrowTimeFormatted() {
-		return TimeUtils.representTimestamp(borrowTime);
+	public LocalDate getDue() {
+		return due;
 	}
 
-	public long getDueTime() {
-		return dueTime;
+	@Nullable
+	public LocalDate getReturnDate() {
+		return returnDate;
 	}
 
-	public String getDueTimeFormatted() {
-		return TimeUtils.representTimestamp(dueTime);
+	public String getComment() {
+		return comment;
 	}
 
-	public long getReturnTime() {
-		return returnTime;
+	public int getRating() {
+		return rating;
 	}
 
-	public String getReturnTimeFormatted() {
-		if (returnTime == -1) return "Not returned";
-		return TimeUtils.representTimestamp(returnTime);
-	}
 }

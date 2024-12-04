@@ -25,7 +25,6 @@ dependencies {
     implementation 'org.openjfx:javafx-fxml:23.0.1'
     implementation 'com.google.zxing:core:3.5.3'
     implementation 'com.google.zxing:javase:3.5.3'
-    implementation 'io.github.cdimascio:dotenv-java:3.0.2'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'

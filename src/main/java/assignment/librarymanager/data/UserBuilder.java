@@ -2,8 +2,12 @@ package assignment.librarymanager.data;
 
 import assignment.librarymanager.data.User.Role;
 import assignment.librarymanager.utils.PasswordHash;
+import assignment.librarymanager.utils.TimeUtils;
+import org.jetbrains.annotations.NotNull;
 
+import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class UserBuilder {
 
@@ -15,17 +19,40 @@ public class UserBuilder {
 	private String email;
 	private String notice;
 
-	public UserBuilder() {
-		this.username = null;
-		this.name = null;
-		this.passwordHash = null;
-		this.role = Role.USER;
-		this.creation = LocalDate.now();
-		this.email = null;
+	public UserBuilder(
+			@NotNull String username,
+			@NotNull String name,
+			@NotNull String passwordHash,
+			Role role,
+			LocalDate creation,
+			@NotNull String email
+	) {
+		this.username = username;
+		this.name = name;
+		this.passwordHash = passwordHash;
+		this.role = Objects.requireNonNullElse(role, Role.USER);
+		this.creation = Objects.requireNonNullElse(creation, TimeUtils.now());
+		this.email = email;
 		this.notice = null;
 	}
 
-	public UserBuilder(User user) {
+	public UserBuilder(
+			@NotNull String username,
+			@NotNull String name,
+			Role role,
+			LocalDate creation,
+			@NotNull String email
+	) {
+		this.username = username;
+		this.name = name;
+		this.passwordHash = "";
+		this.role = Objects.requireNonNullElse(role, Role.USER);
+		this.creation = Objects.requireNonNullElse(creation, TimeUtils.now());
+		this.email = email;
+		this.notice = null;
+	}
+
+	public UserBuilder(@NotNull User user) {
 		this.username = user.getUsername();
 		this.name = user.getName();
 		this.passwordHash = user.getPasswordHash();
@@ -35,32 +62,42 @@ public class UserBuilder {
 		this.notice = user.getNotice();
 	}
 
-	public UserBuilder setUsername(String username) {
+	public UserBuilder setUsername(@NotNull String username) {
 		this.username = username;
 		return this;
 	}
 
-	public UserBuilder setName(String name) {
+	public UserBuilder setName(@NotNull String name) {
 		this.name = name;
 		return this;
 	}
 
-	public UserBuilder setPassword(String password) {
+	public UserBuilder setPassword(@NotNull String password) {
 		this.passwordHash = PasswordHash.hash(password);
 		return this;
 	}
 
-	public UserBuilder setRole(Role role) {
+	public UserBuilder setRole(@NotNull Role role) {
 		this.role = role;
 		return this;
 	}
 
-	public UserBuilder setCreation(LocalDate creation) {
+	public UserBuilder setCreation(@NotNull LocalDate creation) {
 		this.creation = creation;
 		return this;
 	}
 
-	public UserBuilder setEmail(String email) {
+	public UserBuilder setCreationNow() {
+		this.creation = TimeUtils.now();
+		return this;
+	}
+
+	public UserBuilder setCreationEpoch(long epoch) {
+		this.creation = TimeUtils.fromEpoch(epoch);
+		return this;
+	}
+
+	public UserBuilder setEmail(@NotNull String email) {
 		this.email = email;
 		return this;
 	}
@@ -71,9 +108,6 @@ public class UserBuilder {
 	}
 
 	public User build() {
-		if (username == null || name == null || passwordHash == null || email == null) {
-			throw new IllegalStateException("Missing required fields");
-		}
 		return new User(username, name, passwordHash, role, creation, email, notice);
 	}
 

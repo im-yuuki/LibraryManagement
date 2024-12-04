@@ -1,53 +1,76 @@
 package assignment.librarymanager.data;
 
+import javafx.scene.image.Image;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public class Book {
 
 	private final String isbn;
 	private final String name;
-	private final int quantity;
+	private final int qty;
+	private final String desctiption;
 	private final String author;
-	private final String publisher;
 	private final String category;
+	private final Image thumbnail;
 
-	public Book(String isbn, String name, int quantity, String author, String publisher, String category) {
+	protected Book(
+			@NotNull String isbn,
+			@NotNull String name,
+			int qty,
+			String description,
+			String author,
+			String category,
+			Image thumbnail
+	) {
 		this.isbn = isbn;
 		this.name = name;
-		this.quantity = quantity;
+		this.qty = qty;
+		this.desctiption = description;
 		this.author = author;
-		this.publisher = publisher;
 		this.category = category;
+		this.thumbnail = thumbnail;
 	}
 
+	@NotNull
 	public String getIsbn() {
 		return isbn;
 	}
 
+	@NotNull
 	public String getName() {
 		return name;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getQty() {
+		return qty;
 	}
 
+	@Nullable
+	public String getDesctiption() {
+		return desctiption;
+	}
+
+	@Nullable
 	public String getAuthor() {
 		return author;
 	}
 
-	public String getPublisher() {
-		return publisher;
-	}
-
+	@Nullable
 	public String getCategory() {
 		return category;
 	}
 
+	@Nullable
+	public Image getThumbnail() {
+		return thumbnail;
+	}
+
 	public String qrText() {
-		return "[%s]\nName: %s\nAuthor: %s\nPublisher: %s\nCategory: %s\n".formatted(
+		return "[%s]\nName: %s\nAuthor: %s\nCategory: %s\n".formatted(
 				isbn,
 				name,
 				author,
-				publisher,
 				category
 		);
 	}

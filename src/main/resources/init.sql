@@ -12,14 +12,15 @@ CREATE TABLE IF NOT EXISTS "users"
     PRIMARY KEY ("username")
 );
 
-CREATE INDEX IF NOT EXISTS "users_index_0" ON "users" ("name");
-CREATE INDEX IF NOT EXISTS "users_index_1" ON "users" ("email");
+CREATE INDEX IF NOT EXISTS "users_index_0" ON "users" ("username");
+CREATE INDEX IF NOT EXISTS "users_index_1" ON "users" ("name");
+CREATE INDEX IF NOT EXISTS "users_index_2" ON "users" ("email");
 
 CREATE TABLE IF NOT EXISTS "books"
 (
     "isbn"        VARCHAR NOT NULL UNIQUE,
     "name"        VARCHAR NOT NULL,
-    "qty"         INTEGER NOT NULL,
+    "qty"         INTEGER NOT NULL CHECK ("qty" > 0),
     "description" TEXT,
     "author"      VARCHAR,
     "category"    VARCHAR,
@@ -33,14 +34,14 @@ CREATE INDEX IF NOT EXISTS "books_index_2" ON "books" ("category");
 
 CREATE TABLE IF NOT EXISTS "borrow"
 (
-    "id"       INTEGER NOT NULL UNIQUE,
-    "isbn"     VARCHAR NOT NULL,
-    "username" VARCHAR NOT NULL,
-    "from"     DATE    NOT NULL,
-    "due"      DATE    NOT NULL,
-    "return"   DATE,
-    "comment"  TEXT,
-    "rating"   INTEGER,
+    "id"          INTEGER NOT NULL UNIQUE,
+    "isbn"        VARCHAR NOT NULL,
+    "username"    VARCHAR NOT NULL,
+    "from"        DATE    NOT NULL,
+    "due"         DATE    NOT NULL,
+    "return_date" DATE,
+    "comment"     TEXT,
+    "rating"      INTEGER NOT NULL DEFAULT 0 CHECK ("rating" >= 0 AND "rating" <= 5),
     PRIMARY KEY ("id"),
     FOREIGN KEY ("username") REFERENCES "users" ("username")
         ON UPDATE RESTRICT ON DELETE RESTRICT,
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS "borrow_reqs"
     "id"       INTEGER NOT NULL UNIQUE,
     "isbn"     VARCHAR NOT NULL,
     "username" VARCHAR NOT NULL,
-    "duration" INTEGER NOT NULL,
+    "duration" INTEGER NOT NULL CHECK ("duration" > 0),
     PRIMARY KEY ("id"),
     FOREIGN KEY ("isbn") REFERENCES "books" ("isbn")
         ON UPDATE RESTRICT ON DELETE RESTRICT,
