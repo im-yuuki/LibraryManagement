@@ -34,7 +34,7 @@ CREATE INDEX IF NOT EXISTS "books_index_2" ON "books" ("category");
 
 CREATE TABLE IF NOT EXISTS "borrow"
 (
-    "id"          INTEGER NOT NULL UNIQUE,
+    "id"          INTEGER NOT NULL UNIQUE AUTOINCREMENT,
     "isbn"        VARCHAR NOT NULL,
     "username"    VARCHAR NOT NULL,
     "from"        DATE    NOT NULL,
@@ -54,7 +54,7 @@ CREATE INDEX IF NOT EXISTS "borrow_index_1" ON "borrow" ("username");
 
 CREATE TABLE IF NOT EXISTS "borrow_reqs"
 (
-    "id"       INTEGER NOT NULL UNIQUE,
+    "id"       INTEGER NOT NULL UNIQUE AUTOINCREMENT,
     "isbn"     VARCHAR NOT NULL,
     "username" VARCHAR NOT NULL,
     "duration" INTEGER NOT NULL CHECK ("duration" > 0),

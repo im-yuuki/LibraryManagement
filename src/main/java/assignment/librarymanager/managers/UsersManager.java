@@ -41,7 +41,7 @@ public class UsersManager {
 	}
 
 	public void select(@NotNull String username, @NotNull Consumer<User> onSuccess, @NotNull Consumer<SQLException> onFailure) {
-		String sql = "SELECT * FROM users WHERE username = ?";
+		String sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
 		try (PreparedStatement statement = database.createPreparedStatement(sql)) {
 			statement.setString(1, username);
 			database.executeQueryInThread(

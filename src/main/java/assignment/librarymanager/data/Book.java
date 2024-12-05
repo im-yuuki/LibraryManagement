@@ -4,6 +4,10 @@ import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.InputStream;
+import java.sql.Blob;
+import java.util.ArrayList;
+
 public class Book {
 
 	private final String isbn;
@@ -12,7 +16,7 @@ public class Book {
 	private final String desctiption;
 	private final String author;
 	private final String category;
-	private final Image thumbnail;
+	private final ArrayList<Byte> thumbnail;
 
 	protected Book(
 			@NotNull String isbn,
@@ -21,7 +25,7 @@ public class Book {
 			String description,
 			String author,
 			String category,
-			Image thumbnail
+			ArrayList<Byte> thumbnail
 	) {
 		this.isbn = isbn;
 		this.name = name;
@@ -62,8 +66,42 @@ public class Book {
 	}
 
 	@Nullable
-	public Image getThumbnail() {
+	public ArrayList<Byte> getThumbnail() {
 		return thumbnail;
+	}
+
+	@Nullable
+	public Image getThumbnailImage() {
+		if (thumbnail == null) return null;
+		byte[] bytes = new byte[thumbnail.size()];
+		for (int i = 0; i < thumbnail.size(); i++) {
+			bytes[i] = thumbnail.get(i);
+		}
+		return new Image(new InputStream() {
+			private int index = 0;
+			@Override
+			public int read() {
+				if (index >= bytes.length) return -1;
+				return bytes[index++] & 0xFF;
+			}
+		});
+	}
+
+	@Nullable
+	public InputStream getThumbnailStream() {
+		if (thumbnail == null) return null;
+		byte[] bytes = new byte[thumbnail.size()];
+		for (int i = 0; i < thumbnail.size(); i++) {
+			bytes[i] = thumbnail.get(i);
+		}
+		return new InputStream() {
+			private int index = 0;
+			@Override
+			public int read() {
+				if (index >= bytes.length) return -1;
+				return bytes[index++] & 0xFF;
+			}
+		};
 	}
 
 	public String qrText() {
