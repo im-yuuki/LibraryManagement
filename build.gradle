@@ -35,8 +35,8 @@ test {
 }
 
 application {
-    mainModule = 'assignment.librarymanager'
-    mainClass = 'assignment.librarymanager.Main'
+    mainModule = 'assignment.librarymanagement'
+    mainClass = 'assignment.librarymanagement.Main'
 }
 
 run {

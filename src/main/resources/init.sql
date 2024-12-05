@@ -2,13 +2,13 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS "users"
 (
-    "username" VARCHAR NOT NULL UNIQUE,
-    "name"     VARCHAR NOT NULL,
-    "pwd_hash" VARCHAR NOT NULL,
-    "email"    VARCHAR NOT NULL UNIQUE,
-    "role"     VARCHAR NOT NULL,
-    "creation" DATE    NOT NULL,
-    "notice"   TEXT,
+    "username"     VARCHAR NOT NULL UNIQUE,
+    "name"         VARCHAR NOT NULL,
+    "pwd_hash"     VARCHAR NOT NULL,
+    "email"        VARCHAR NOT NULL UNIQUE,
+    "role"         VARCHAR NOT NULL,
+    "creation"     DATE    NOT NULL,
+    "notification" TEXT,
     PRIMARY KEY ("username")
 );
 
@@ -34,7 +34,7 @@ CREATE INDEX IF NOT EXISTS "books_index_2" ON "books" ("category");
 
 CREATE TABLE IF NOT EXISTS "borrow"
 (
-    "id"          INTEGER NOT NULL UNIQUE AUTOINCREMENT,
+    "id"          INTEGER NOT NULL UNIQUE,
     "isbn"        VARCHAR NOT NULL,
     "username"    VARCHAR NOT NULL,
     "from"        DATE    NOT NULL,
@@ -54,10 +54,10 @@ CREATE INDEX IF NOT EXISTS "borrow_index_1" ON "borrow" ("username");
 
 CREATE TABLE IF NOT EXISTS "borrow_reqs"
 (
-    "id"       INTEGER NOT NULL UNIQUE AUTOINCREMENT,
+    "id"       INTEGER NOT NULL UNIQUE,
     "isbn"     VARCHAR NOT NULL,
     "username" VARCHAR NOT NULL,
-    "duration" INTEGER NOT NULL CHECK ("duration" > 0),
+    "duration" INTEGER NOT NULL CHECK ("duration" > 0 AND "duration" <= 30),
     PRIMARY KEY ("id"),
     FOREIGN KEY ("isbn") REFERENCES "books" ("isbn")
         ON UPDATE RESTRICT ON DELETE RESTRICT,
@@ -67,3 +67,6 @@ CREATE TABLE IF NOT EXISTS "borrow_reqs"
 
 CREATE INDEX IF NOT EXISTS "borrow_reqs_index_0" ON "borrow_reqs" ("isbn");
 CREATE INDEX IF NOT EXISTS "borrow_reqs_index_1" ON "borrow_reqs" ("username");
+
+INSERT OR IGNORE INTO "users" ("username", "name", "pwd_hash", "email", "role", "creation")
+       VALUES ('root', 'SYSTEM', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2', 'root@localhost' , 'ADMINISTRATOR', datetime('now'));
