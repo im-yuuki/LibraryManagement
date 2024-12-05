@@ -5,23 +5,48 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create your new account:" />
+    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Create your new account:">
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font></Text>
     <HBox alignment="CENTER" spacing="10.0">
-         <TextField fx:id="usernameField" promptText="Username" HBox.hgrow="ALWAYS" />
-         <TextField fx:id="nameField" promptText="Name" HBox.hgrow="ALWAYS" />
+         <TextField fx:id="usernameField" promptText="Username" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
+         <TextField fx:id="nameField" promptText="Name" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
     </HBox>
-   <HBox alignment="CENTER" spacing="10.0">
-      <children>
-            <PasswordField fx:id="passwordField" promptText="Password" HBox.hgrow="ALWAYS" />
-            <TextField fx:id="emailField" promptText="Email" HBox.hgrow="ALWAYS" />
-      </children>
-   </HBox>
-    <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submit" text="Create account" />
     <HBox alignment="CENTER" spacing="10.0">
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?" />
-        <Button mnemonicParsing="false" onAction="#backToLogin" text="Log in" />
+        <TextField fx:id="emailField" promptText="Email" HBox.hgrow="ALWAYS">
+        <font>
+            <Font size="16.0"/>
+        </font>
+        </TextField>
+        <PasswordField fx:id="passwordField" promptText="Password" HBox.hgrow="ALWAYS">
+        <font>
+            <Font size="16.0"/>
+        </font>
+        </PasswordField>
+    </HBox>
+    <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submit" text="Create account">
+      <font>
+         <Font name="System Bold" size="16.0" />
+      </font></Button>
+    <HBox alignment="CENTER" spacing="10.0">
+        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font></Text>
+        <Button mnemonicParsing="false" onAction="#backToLogin" text="Log in">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Button>
     </HBox>
 </VBox>

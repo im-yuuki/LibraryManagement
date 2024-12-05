@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,17 +20,21 @@ public class WelcomeBoard implements BoardInterface {
 	private final Parent root;
 	private final WelcomeScreen functions;
 	private final Consumer<User> loggedInUserSetter;
+	private final Runnable switcher;
 	private final Login loginUi;
 	private final Register registerUi;
+	private final DatabaseWrapper database;
 	private Stage stage = null;
 
 	@FXML
 	public AnchorPane componentDisplay;
 
-	public WelcomeBoard(Consumer<User> loggedInUserSetter) throws SQLException, IOException {
+	public WelcomeBoard(Consumer<User> loggedInUserSetter, Runnable switcher) throws SQLException, IOException {
+		this.switcher = switcher;
 		this.loggedInUserSetter = loggedInUserSetter;
-		this.functions = new WelcomeScreen(new DatabaseWrapper());
-		this.loginUi = new Login(functions, this::close, this::toRegister);
+		this.database = new DatabaseWrapper();
+		this.functions = new WelcomeScreen(database);
+		this.loginUi = new Login(functions, this::nextUi, this::toRegister);
 		this.registerUi = new Register(functions, this::toLogin);
 		FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/welcome.fxml"));
 		loader.setController(this);
@@ -48,10 +51,15 @@ public class WelcomeBoard implements BoardInterface {
 	}
 
 	@Override
-	public void close() {
+	public void nextUi() {
 		User user = functions.getLoggedInUser();
 		if (user != null) loggedInUserSetter.accept(user);
 		if (stage != null) stage.close();
+		try {
+			database.close();
+		} catch (SQLException ignored) {}
+		switcher.run();
+
 	}
 
 	private void toLogin() {

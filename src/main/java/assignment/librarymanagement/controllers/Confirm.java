@@ -49,6 +49,11 @@ public class Confirm implements PopupInterface {
 		callback.run();
 	}
 
+	@FXML
+	public void cancel() {
+		stage.close();
+	}
+
 	@Override
 	public void show() {
 		stage.showAndWait();
